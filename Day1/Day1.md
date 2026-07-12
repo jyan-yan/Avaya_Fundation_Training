@@ -15,7 +15,7 @@
 
 
 
-- ## Sign up for a **GitHub  account**.
+- ## *Sign up for a **GitHub  account**.*
 
 2 accounts:  
 
@@ -25,4 +25,23 @@ yanjia_jack@hotmail.com
 
 
 
-- ## Create a repository in your account.
+- ## *Create a repository in your account.*
+
+**Avaya_Fundation_Training** created.
+
+![image-20260712140953099](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712140953099.png)
+
+- ## *Install Git and VS Code on your PC.*
+
+1. git installation:
+
+   Download git: https://git-scm.com/
+
+   ![image-20260712141530620](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712141530620.png)
+
+2. VS code installation:
+
+   ![image-20260712141706169](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712141706169.png)
+
+- ## Clone the new  repository to your PC and open it via VS Code.
+
