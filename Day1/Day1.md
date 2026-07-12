@@ -67,3 +67,6 @@ yanjia_jack@hotmail.com
 
 - ## *Push it to GitHub     once completed.*
 
+git push https://github.com/jyan-yan/Avaya_Fundation_training.git master:master
+
+![image-20260712144500885](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712144500885.png)
