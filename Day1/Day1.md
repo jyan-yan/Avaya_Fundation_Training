@@ -29,7 +29,7 @@ yanjia_jack@hotmail.com
 
 **Avaya_Fundation_Training** created.
 
-![image-20260712140953099.png](img\image-20260712140953099.png)
+![image-20260712140953099.png](img/image-20260712140953099.png)
 
 - ## *Install Git and VS Code on your PC.*
 
@@ -37,7 +37,7 @@ yanjia_jack@hotmail.com
 
    Download git: https://git-scm.com/
 
-   ![image-20260712141530620](img\image-20260712141530620.png)
+   ![image-20260712141530620](img/image-20260712141530620.png)
 
 2. VS code installation:
 
