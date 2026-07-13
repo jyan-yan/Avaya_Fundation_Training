@@ -29,7 +29,7 @@ yanjia_jack@hotmail.com
 
 **Avaya_Fundation_Training** created.
 
-![alt text](image.png)
+![image-20260712140953099.png](img\image-20260712140953099.png)
 
 - ## *Install Git and VS Code on your PC.*
 
@@ -37,17 +37,17 @@ yanjia_jack@hotmail.com
 
    Download git: https://git-scm.com/
 
-   ![image-20260712141530620](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712141530620.png)
+   ![image-20260712141530620](img\image-20260712141530620.png)
 
 2. VS code installation:
 
-   ![image-20260712141706169](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712141706169.png)
+   ![image-20260712141706169](img\image-20260712141706169.png)
 
 - ## *Clone the new  repository to your PC and open it via VS Code.*
 
 `$ git clone https://github.com/jyan-yan/Avaya_Fundation_Training.git`
 
-![image-20260712142430398](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712142430398.png)
+![image-20260712142430398](img\image-20260712142430398.png)
 
 
 
@@ -69,4 +69,4 @@ yanjia_jack@hotmail.com
 
 git push https://github.com/jyan-yan/Avaya_Fundation_training.git master:master
 
-![image-20260712144500885](C:\Users\jyan\AppData\Roaming\Typora\typora-user-images\image-20260712144500885.png)
+![image-20260712144500885](img\image-20260712144500885.png)
