@@ -27,8 +27,13 @@ Let's write a quick program and use simple Linux commands to see these concepts 
 
 Open your terminal and create a file named `loop.c`:
 
-```
-#define LOOP 1 int main(void) {    while(LOOP); }
+```C
+#define LOOP 1 
+
+int main(void) 
+{
+	while(LOOP); 
+}
 ```
 
 1. **See the GCC Steps** 
