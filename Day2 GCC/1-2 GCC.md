@@ -36,7 +36,7 @@ int main(void)
 }
 ```
 
-1. **See the GCC Steps** 
+2. **See the GCC Steps** 
 
 Run these commands to see the output of each translation step:
 
@@ -45,7 +45,7 @@ Run these commands to see the output of each translation step:
 - `gcc -c loop.s -o loop.o` (Assemble: creates the binary Object file).
 - `gcc loop.o -o loop`(Link: creates the final ELF executable).
 
-1. **Run and Manage the Process**
+3. **Run and Manage the Process**
 
 Because this code is an infinite loop, we will run it in the background so it doesn't freeze our terminal.
 
