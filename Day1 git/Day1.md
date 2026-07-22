@@ -19,9 +19,11 @@
 
 2 accounts:
 
-jyan@avaya.com
+jyan@avaya.com       https://github.com/jyan-yan
 
-yanjia_jack@hotmail.com
+yanjia_jack@hotmail.com       https://github.com/yanjiajack/
+
+https://github.com/jyan-yan/Avaya_Fundation_Training
 
 
 

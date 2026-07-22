@@ -29,7 +29,7 @@ ECC commands
 
 <u>Result:</u>
 
-**loop.i** : adding # parts and change the LOOP to 1.
+**loop.i** : adding # parts and change the LOOP to 1. Preprocessed.
 
 ```
 jyan@DA22053684:~/Day2_gcc$ cat loop.i
@@ -47,7 +47,7 @@ int main(void)
 }
 ```
 
-**loop.s** : 
+**loop.s** :  Compiled.
 
 ```
 jyan@DA22053684:~/Day2_gcc$ cat loop.s
@@ -59,12 +59,12 @@ main:
 .LFB0:
         .cfi_startproc
         endbr64
-        pushq   %rbp
+        pushq   %rbp                  =============> Create stack frame, %rbp = stack base pointer
         .cfi_def_cfa_offset 16
         .cfi_offset 6, -16
-        movq    %rsp, %rbp
+        movq    %rsp, %rbp            =============> Create stack frame, %rsp = stack start pointer
         .cfi_def_cfa_register 6
-.L2:
+.L2:              ============> enter a fomular (函数), a tab (标签)
         nop
         jmp     .L2
         .cfi_endproc
@@ -90,7 +90,7 @@ main:
 4:
 ```
 
-**loop.o**
+**loop.o**  Assembled
 
 ```
 jyan@DA22053684:~/Day2_gcc$ cat loop.o
@@ -104,7 +104,7 @@ ELF>�@@
 Xg
 ```
 
-**loop**
+**loop**  Executable. ELF
 
 ```
 jyan@DA22053684:~/Day2_gcc$ cat loop
@@ -128,3 +128,18 @@ ELF>@@X6@8@@@ttt��AA   �-�=�= (.>>�PPP$$� � � 0� � �   S
                                                      
 ```
 
+3. **Run the process**
+
+   Run `./loop &`, running the process in background. The process id is replied.
+
+   ![image-20260720115000267](./img/image-20260720115000267.png)
+
+   ![image-20260720114947403](./img/image-20260720114947403.png)
+
+   Detailed information about this process could be found in `/proc/<process id>`.
+
+   ![image-20260720115112532](./img/image-20260720115112532.png)
+
+4. `ldd loop` **check which the elf file depends (依赖哪些库)**
+
+5. 
