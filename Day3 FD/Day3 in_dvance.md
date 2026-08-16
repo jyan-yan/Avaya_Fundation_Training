@@ -72,3 +72,7 @@ Hi Team,
 
 
 有反馈或问题请随时ping我，谢谢。
+
+
+
+栈的话，看下这个：[https://github.com/yijun-l/linux-kernel/blob/0c74999c6c88fae312f395b7f4211050dfb3f96e/doc/09%20-%20stack.md](https://github.com/yijun-l/linux-kernel/blob/0c74999c6c88fae312f395b7f4211050dfb3f96e/doc/09 - stack.md)

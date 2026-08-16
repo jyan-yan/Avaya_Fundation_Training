@@ -56,19 +56,19 @@ jyan@DA22053684:~/Day2_gcc$ cat loop.s
         .globl  main
         .type   main, @function
 main:
-.LFB0:
+.LFB0:                    ===========> Local Function Begin
         .cfi_startproc
         endbr64
-        pushq   %rbp                  =============> Create stack frame, %rbp = stack base pointer
+        pushq   %rbp            =============> Create stack frame（栈帧）, %rbp = R+BP,64 bit base pointer(基址寄存器/frame pointer),R means 64 bit (E for 32 bit),BP: base pointer/frame pointer, pushq means save.
         .cfi_def_cfa_offset 16
         .cfi_offset 6, -16
-        movq    %rsp, %rbp            =============> Create stack frame, %rsp = stack start pointer
+        movq    %rsp, %rbp      =============> Move the stack pointer to the to base pointer, %rsp = R+SP, 64 bit Stack Pointer (栈顶指针), SP: Stack pointer(栈顶指针)
         .cfi_def_cfa_register 6
-.L2:              ============> enter a fomular (函数), a tab (标签)
+.L2:              ============> a function tab (函数标签)
         nop
         jmp     .L2
         .cfi_endproc
-.LFE0:
+.LFE0:						=============> Local Function End
         .size   main, .-main
         .ident  "GCC: (Ubuntu 15.2.0-16ubuntu1) 15.2.0"
         .section        .note.GNU-stack,"",@progbits
@@ -142,4 +142,25 @@ ELF>@@X6@8@@@ttt��AA   �-�=�= (.>>�PPP$$� � � 0� � �   S
 
 4. `ldd loop` **check which the elf file depends (依赖哪些库)**
 
-5. 
+   `ldd`（**List Dynamic Dependencies**）是 Linux 中一个非常常用的命令，用于**查看一个可执行文件或共享库(.so)依赖哪些动态链接库**。它是排查程序无法启动、缺少库文件等问题时最常用的工具之一。
+
+   ![image-20260722092426224](./img/image-20260722092426224.png)
+
+5. How the `Link` stage works
+
+   A code file could call to different functions which are not included in the same code file. Link is to connect all required functions from .so or other .dll.
+
+6. General-purpose registers 通用寄存器
+
+   - %rax → 返回值 / 通用累加寄存器（rax 的 32/16/8 位别名： %eax, %ax, %al/%ah）
+- %rbx → 被调保存（callee-saved）
+   - %rcx → 第三/第四参数（在某些 ABI）并常用于循环计数/指令（rcx 的别名 %ecx, %cx, %cl）
+- %rdx → 参数 / 通用（别名 %edx, %dx, %dl）
+   - %rsi → 第二参数（别名 %esi, %si, %sil）
+- %rdi → 第一参数（别名 %edi, %di, %dil）
+   - %rbp → Base/Frame pointer（帧指针），别名 %ebp, %bp, %bpl
+- %rsp → Stack pointer（栈指针），别名 %esp, %sp, %spl
+   - %r8 – %r15 → 扩展寄存器（分别有 32/16/8 位别名，如 %r8d, %r8w, %r8b）
+  - %r8 - %r11 通常是 caller-saved（调用者保存）
+     - %r12 - %r15 通常是 callee-saved（被调保存）
+-  %rip  → Instruction Pointer (指令指针)
