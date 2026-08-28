@@ -75,6 +75,8 @@ git push https://github.com/jyan-yan/Avaya_Fundation_training.git master:master
 
 
 
+
+
 # <u>Additionals:</u>
 
 ## How to add pictures
