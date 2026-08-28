@@ -200,3 +200,132 @@ a[1000000] = 1;      // 越界到未映射区 → 可能 SIGSEGV（也可能踩�
 一句话总结：
 
 > 内核空间虚拟地址主要指向**整个系统的物理内存（经 direct map 线性映射）**、内核自身镜像、各任务的内核栈/ slab / 页表，以及通过 `ioremap` 映射的**设备寄存器**。它和用户空间的本质区别是：用户空间映射到“进程私有页”，内核空间映射到“全系统共享的物理 RAM + 硬件 MMIO”，且所有进程看到的内核映射完全一致。
+
+
+
+# mmap
+
+**Memory-Mapped Region**: Used for loading shared libraries and huge files (via `mmap`).
+
+`mmap` 是操作系统**虚拟内存管理**的一部分（POSIX/Linux 系统调用，Windows 对应 `CreateFileMapping`/`MapViewOfFile`）。
+
+**它做什么**：把文件或设备直接映射到进程的**虚拟地址空间**，让文件像内存数组一样被读写，省去 `read`/`write` 的拷贝开销。
+
+**存储/映射的信息**：
+
+- 磁盘文件内容（最常见，如大文件、共享库 `.so`）
+- 匿名内存（无文件背景，用作共享内存 `MAP_ANONYMOUS`）
+- 设备寄存器/硬件（设备文件映射）
+- 进程间共享内存（`MAP_SHARED`）
+
+**关键特点**：
+
+- 按需分页（page fault 时才真正读磁盘）
+- 多个进程 `MAP_SHARED` 映射同一文件可共享内存
+- 修改可由 `msync` 刷回磁盘，或依赖内核自动回写
+
+和你在做的训练相关的典型用途：加载大模型权重、深度学习数据集（`torch.utils.data` 底层常用 mmap 提速）。
+
+
+
+**mmap可以通过mmap()的system call进行调用**
+
+ **调用系统调用（C/Unix）：**
+
+```c
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <unistd.h>
+
+int fd = open("file.bin", O_RDONLY);
+struct stat st; fstat(fd, &st);
+
+void *addr = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+// addr 现在可直接当字节数组访问，如 ((char*)addr)[0]
+// 用完：
+munmap(addr, st.st_size);
+close(fd);
+```
+
+**只是磁盘文件的映射，磁盘上文件内容并不一次性全部拷贝到物理内存。**
+
+- 访问 `addr[i]` 时触发 **page fault**，内核才把对应 4KB 页从磁盘读入物理内存。
+- 多个虚拟页可指向同一份物理页（共享）；`MAP_PRIVATE` 写时会触发写时复制（COW）。
+- 所以"内容"对进程看来就是文件内容，但物理内存只在访问到的部分才真正驻留。
+
+
+
+# task_struct和mm_struct
+
+## `task_struct`（节选中）
+
+```c
+struct mm_struct      *mm;     // 指向该进程的内存描述符（地址空间）
+struct files_struct  *files;  // 指向该进程打开的文件描述符表
+```
+
+- 这是进程的"总控块"。一个进程的运行所需的关键资源都以指针形式挂在这里：内存(`mm`)、文件(`files`)、信号处理、PID、状态等。
+
+## `mm_struct`（节选中）
+
+```c
+struct vm_area_struct *mmap;   // VMA 链表：描述地址空间里每一段[起始,结束)区域的属性 对应mmap
+pgd_t *pgd;                    // 页表顶级指针（Page Global Directory），MMU 寻址根
+atomic_t mm_users;             // 引用计数：多少个线程/进程共享此地址空间（clone VM）
+unsigned long start_code, end_code;   // 代码段(text)的起止虚拟地址
+unsigned long start_data, end_data;   // 已初始化数据段(data)的起止虚拟地址
+unsigned long start_brk, brk;         // 堆的起始地址 与 当前堆顶（brk() 系统调用扩展它）
+unsigned long start_stack;            // 用户栈的起始地址（栈向低地址增长，这实际是栈底/最高地址）
+```
+
+
+
+# System Call / Library Call
+
+## 1. Library call 在 link 后去哪了？
+
+**静态链接 (`-static`)：你说得对** 库函数的机器码被**直接复制**进可执行文件的 `.text`。运行时全在进程自己 text 段里。
+
+**动态链接（gcc 默认）：你说得不对** 你的可执行文件里**没有**库函数的机器码，只有：
+
+- 一个 **PLT（过程链接表）stub** + 动态符号表里的一条**引用**。
+- 真正的库函数代码在磁盘的 `libc.so` 里。
+
+运行时，加载器 `ld.so` 把 `libc.so` **mmap 映射**进进程虚拟地址空间（形成一个带执行权限的 VMA，挂在 `mm_struct` 下）。所以库函数代码**也在进程地址空间里、也在某个 text 区**，但那是 **libc.so 自己的 text，不是你 exe 文件的 text**——多个进程共享同一份物理页。
+
+```text
+进程虚拟地址空间（mm_struct 管理）
+┌─────────────────────┐
+│ 你的 exe 的 .text    │  ← 只有 main 和你自己写的函数
+├─────────────────────┤
+│ libc.so 的 .text     │  ← open/read/mmap wrapper 实际在这里（mmap 进来的）
+├─────────────────────┤
+│ 堆 / 栈 / mmap 区    │
+└─────────────────────┘
+```
+
+## 2. System call 呢？
+
+一次 `mmap()` 实际分两段，分属两个空间：
+
+```text
+用户空间 (ring 3, 进程的 text)
+   glibc 的 mmap wrapper:
+       mov rax, 9        ; __NR_mmap
+       syscall           ; ← 这条指令在用户态 text 里
+   ────────── 陷入(trap)，CPU 切到 ring 0 ──────────
+内核空间 (ring 0, 内核自己的内存，普通进程用户态不可访问)
+   entry_SYSCALL_64 → sys_mmap()  ← 真正建 VMA 的代码在这
+       返回 → 回到用户态
+```
+
+要点：
+
+- **`syscall` 指令本身**（trap 的那一下）在用户态 text（libc 或 exe 的 text 里）。
+- **内核里的真正处理程序 `sys_mmap`** 在**内核空间**，不属于任何进程的用户态地址空间，用户态代码读不到也跳不进去（靠特权级隔离）。
+- 所以"system call 的执行机器语言在 text 出现"——只是指**用户态那层薄 wrapper + trap 指令**在你进程 text 里；内核干活的机器码在 kernel image 里，和你的 exe 无关。
+
+## 一句话总结
+
+- Library call：动态链接下代码在 `libc.so` 的 text（运行时 mmap 进来），不在你 exe 里。
+- System call：用户态 wrapper（含 `syscall` 指令）在进程 text；内核侧处理程序在**内核空间**，与进程地址空间隔离。
