@@ -23,7 +23,7 @@ The layout in 64-bit systems is similar, but with a significantly larger address
 
 问题：
 
-1. 一个进程如果有多线程，Stack中如何通过LIFO的形式来处理？
+1. 一个进程如果有多线程，Stack中如何通过LIFO的形式来处理？==A：每个线程有自己的stack。所有子线程公用主进程的内存空间。==
 2. Stack中直接存储数据，还是存储数据所在内存位置的指针？Data和Text部分呢？在Data中，int, float等基本数据类型是直接保存，其他保存指向Heap内存的指针/引用地址。Stack中，基本数据类型，如int, float，char，bool等，直接存变量，其他类型存指针
 3. Stack中的数据在被程序调用的时候如何来寻址？
 
