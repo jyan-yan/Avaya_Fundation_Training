@@ -185,7 +185,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 276.5909423828125
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -199,7 +199,7 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "79cb79a9286d39db",
+  "active": "2f4fcf5714dde1ab",
   "lastOpenFiles": [
     "Day4 MM/Day4 Learning.md",
     "Day5 Process/1-5 Process.md",
