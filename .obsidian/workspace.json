@@ -11,14 +11,15 @@
             "id": "79cb79a9286d39db",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "split-diff-view",
               "state": {
-                "file": "Day6 Signal/1-6 Signal.md",
-                "mode": "source",
-                "source": false
+                "aFile": "Day4 MM/Day4 Learning.md",
+                "bFile": "Day4 MM/Day4 Learning.md",
+                "aRef": "HEAD",
+                "bRef": ""
               },
-              "icon": "lucide-file",
-              "title": "1-6 Signal"
+              "icon": "diff",
+              "title": "Diff: Day4 Learning  (Index)"
             }
           }
         ]
@@ -99,7 +100,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Day6 Signal/1-6 Signal.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,6 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Day6 Signal/1-6 Signal.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +160,6 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Day6 Signal/1-6 Signal.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -201,7 +199,12 @@
   },
   "active": "79cb79a9286d39db",
   "lastOpenFiles": [
+    "Day4 MM/Day4 Learning.md",
     "Day5 Process/1-5 Process.md",
+    "conflict-files-obsidian-git.md",
+    "Day6 Signal/1-6 Signal.md",
+    "Day4 MM/Day4 Practice.md",
+    "Day3 FD/img/Pasted image 20260920233550.png",
     "Day2 GCC/1-2 GCC.md"
   ]
 }
