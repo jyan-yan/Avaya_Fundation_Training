@@ -11,15 +11,14 @@
             "id": "79cb79a9286d39db",
             "type": "leaf",
             "state": {
-              "type": "split-diff-view",
+              "type": "markdown",
               "state": {
-                "aFile": "Day4 MM/Day4 Learning.md",
-                "bFile": "Day4 MM/Day4 Learning.md",
-                "aRef": "HEAD",
-                "bRef": ""
+                "file": "Day5 Process/1-5 Process.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "diff",
-              "title": "Diff: Day4 Learning  (Index)"
+              "icon": "lucide-file",
+              "title": "1-5 Process"
             }
           }
         ]
@@ -100,6 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Day5 Process/1-5 Process.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,6 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Day5 Process/1-5 Process.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -160,6 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Day5 Process/1-5 Process.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
